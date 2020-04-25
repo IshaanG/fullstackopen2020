@@ -1,0 +1,8 @@
+note over browser:
+browser starts executing js-code
+that appends the text into the list
+and sends a xhr to update it in the server
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: {"message":"note created"}
