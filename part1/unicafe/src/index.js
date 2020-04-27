@@ -26,6 +26,12 @@ const App = () => {
         <span>neutral {neutral}</span>
         <br />
         <span>bad {bad}</span>
+        <br />
+        <span>all {good + neutral + bad}</span>
+        <br />
+        <span>average {(good - bad) / (good + neutral + bad)}</span>
+        <br />
+        <span>positive {(good / (good + neutral + bad)) * 100} %</span>
       </div>
     </div>
   );
