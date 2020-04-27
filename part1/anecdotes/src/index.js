@@ -13,9 +13,13 @@ const App = (props) => {
     4: 0,
     5: 0,
   });
+  const popular = Object.keys(votes).reduce((a, b) =>
+    votes[a] > votes[b] ? a : b
+  );
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <span>{props.anecdotes[selected]}</span>
       <br />
       <span>has {votes[selected]} votes</span>
@@ -32,6 +36,11 @@ const App = (props) => {
       <button onClick={() => setSelected(getRandomInt(anecdotes.length))}>
         next anecdote
       </button>
+      <h1>Anecdote with most votes</h1>
+      <span>{props.anecdotes[popular]}</span>
+      <br />
+      <span>has {votes[popular]} votes</span>
+      <br />
     </div>
   );
 };
