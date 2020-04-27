@@ -5,11 +5,30 @@ const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  });
 
   return (
     <div>
       <span>{props.anecdotes[selected]}</span>
       <br />
+      <span>has {votes[selected]} votes</span>
+      <br />
+      <button
+        onClick={() => {
+          const copy = { ...votes };
+          copy[selected] += 1;
+          setVotes(copy);
+        }}
+      >
+        vote
+      </button>
       <button onClick={() => setSelected(getRandomInt(anecdotes.length))}>
         next anecdote
       </button>
