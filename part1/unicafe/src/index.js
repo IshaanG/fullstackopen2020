@@ -4,6 +4,24 @@ import ReactDOM from "react-dom";
 const Button = ({ handleClick, text }) => {
   return <button onClick={handleClick}>{text}</button>;
 };
+const Statistics = ({ good, neutral, bad }) => {
+  return (
+    <div>
+      <h1>statictics</h1>
+      <span>good {good}</span>
+      <br />
+      <span>neutral {neutral}</span>
+      <br />
+      <span>bad {bad}</span>
+      <br />
+      <span>all {good + neutral + bad}</span>
+      <br />
+      <span>average {(good - bad) / (good + neutral + bad)}</span>
+      <br />
+      <span>positive {(good / (good + neutral + bad)) * 100} %</span>
+    </div>
+  );
+};
 
 const App = () => {
   // save clicks of each button to own state
@@ -19,20 +37,7 @@ const App = () => {
         <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
         <Button handleClick={() => setBad(bad + 1)} text="bad" />
       </div>
-      <div>
-        <h1>statictics</h1>
-        <span>good {good}</span>
-        <br />
-        <span>neutral {neutral}</span>
-        <br />
-        <span>bad {bad}</span>
-        <br />
-        <span>all {good + neutral + bad}</span>
-        <br />
-        <span>average {(good - bad) / (good + neutral + bad)}</span>
-        <br />
-        <span>positive {(good / (good + neutral + bad)) * 100} %</span>
-      </div>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
