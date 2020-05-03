@@ -4,15 +4,24 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
+  const alreadyExist = (p) => {
+    return persons.filter((person) => person.name === p).length > 0;
+  };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
+
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
-      name: newName,
-    };
-    setPersons(persons.concat(personObject));
+    if (alreadyExist(newName)) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      const personObject = {
+        name: newName,
+      };
+      setPersons(persons.concat(personObject));
+    }
     setNewName(""); // clears form input
   };
 
