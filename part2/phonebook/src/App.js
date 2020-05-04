@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -27,6 +26,14 @@ const App = () => {
     setNewFilter(event.target.value);
   };
 
+  const handleDeletePerson = (id) => {
+    if (window.confirm(`Delete ${id}?`)) {
+      personService.deletePerson(id).then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
+  };
+
   const personsToShow =
     newFilter === ""
       ? persons
@@ -43,16 +50,27 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personService.create(personObject);
-      setPersons(persons.concat(personObject));
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName(""); // clears form name input
+          setNewNumber(""); //clears form number input
+        })
+        .catch((e) => {
+          console.log("Could not add a new person.");
+        });
     }
-    setNewName(""); // clears form name input
-    setNewNumber(""); //clears form number input
   };
   useEffect(() => {
-    personService.getAll().then((notes) => {
-      setPersons(notes);
-    });
+    personService
+      .getAll()
+      .then((notes) => {
+        setPersons(notes);
+      })
+      .catch((e) => {
+        console.log("Could not fetch persons data");
+      });
   }, []);
 
   return (
@@ -68,7 +86,7 @@ const App = () => {
         handleNewNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleClick={handleDeletePerson} />
     </div>
   );
 };
