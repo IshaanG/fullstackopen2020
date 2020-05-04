@@ -33,13 +33,23 @@ const App = () => {
   const handleDeletePerson = (id) => {
     const personName = persons.filter((person) => person.id === id)[0].name;
     if (window.confirm(`Delete ${personName}?`)) {
-      personService.deletePerson(id).then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-        setSuccessMessage(`Successfully deleted ${personName}`);
-        setTimeout(() => {
-          setSuccessMessage("");
-        }, 5000);
-      });
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+          setSuccessMessage(`Successfully deleted ${personName}`);
+          setTimeout(() => {
+            setSuccessMessage("");
+          }, 5000);
+        })
+        .catch(() => {
+          setErrorMessage(
+            `Information of ${personName} has already been removed from server.`
+          );
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 5000);
+        });
     }
   };
 
@@ -72,6 +82,12 @@ const App = () => {
             setTimeout(() => {
               setSuccessMessage("");
             }, 5000);
+          })
+          .catch(() => {
+            setErrorMessage(`Could not add a new person.`);
+            setTimeout(() => {
+              setErrorMessage("");
+            }, 5000);
           });
       }
     } else {
@@ -90,8 +106,11 @@ const App = () => {
           setNewName(""); // clears form name input
           setNewNumber(""); //clears form number input
         })
-        .catch((e) => {
-          console.log("Could not add a new person.");
+        .catch(() => {
+          setErrorMessage(`Could not add a new person.`);
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 5000);
         });
     }
   };
@@ -101,8 +120,11 @@ const App = () => {
       .then((notes) => {
         setPersons(notes);
       })
-      .catch((e) => {
-        console.log("Could not fetch persons data");
+      .catch(() => {
+        setErrorMessage(`Could not fetch persons data`);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
       });
   }, []);
 
