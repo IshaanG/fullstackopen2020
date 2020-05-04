@@ -1,4 +1,5 @@
 import React from "react";
+import Weather from "./Weather";
 
 const TooMany = () => {
   return <div>Too many matches, specify another filter</div>;
@@ -37,6 +38,7 @@ const Single = ({ data }) => {
         })}
       </ul>
       <img src={country.flag} alt={country.name} style={{ height: "150px" }} />
+      <Weather city={country.capital} />
     </div>
   );
 };
