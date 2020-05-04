@@ -3,12 +3,16 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
+import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const alreadyExist = (p) => {
     return persons.filter((person) => person.name === p).length > 0;
@@ -31,6 +35,10 @@ const App = () => {
     if (window.confirm(`Delete ${personName}?`)) {
       personService.deletePerson(id).then(() => {
         setPersons(persons.filter((person) => person.id !== id));
+        setSuccessMessage(`Successfully deleted ${personName}`);
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 5000);
       });
     }
   };
@@ -60,7 +68,10 @@ const App = () => {
               person.name !== newName ? person : returnedPersonObject
             );
             setPersons(newPersons);
-            console.log(newPersons);
+            setSuccessMessage(`Successfully updated number for ${newName}`);
+            setTimeout(() => {
+              setSuccessMessage("");
+            }, 5000);
           });
       }
     } else {
@@ -72,6 +83,10 @@ const App = () => {
         .create(personObject)
         .then((returnedPerson) => {
           setPersons(persons.concat(returnedPerson));
+          setSuccessMessage(`Added ${newName}`);
+          setTimeout(() => {
+            setSuccessMessage("");
+          }, 5000);
           setNewName(""); // clears form name input
           setNewNumber(""); //clears form number input
         })
@@ -94,6 +109,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification
+        errorMessage={errorMessage}
+        successMessage={successMessage}
+      />
       <Filter text={newFilter} handleOnChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm
