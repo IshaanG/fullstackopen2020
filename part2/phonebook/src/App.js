@@ -3,14 +3,13 @@ import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
-
-  const url = "http://localhost:3001/persons";
 
   const alreadyExist = (p) => {
     return persons.filter((person) => person.name === p).length > 0;
@@ -44,15 +43,15 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      axios.post(url, personObject);
+      personService.create(personObject);
       setPersons(persons.concat(personObject));
     }
     setNewName(""); // clears form name input
     setNewNumber(""); //clears form number input
   };
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setPersons(response.data);
+    personService.getAll().then((notes) => {
+      setPersons(notes);
     });
   }, []);
 
