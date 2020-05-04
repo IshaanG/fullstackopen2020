@@ -10,6 +10,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
 
+  const url = "http://localhost:3001/persons";
+
   const alreadyExist = (p) => {
     return persons.filter((person) => person.name === p).length > 0;
   };
@@ -42,13 +44,14 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
+      axios.post(url, personObject);
       setPersons(persons.concat(personObject));
     }
     setNewName(""); // clears form name input
     setNewNumber(""); //clears form number input
   };
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    axios.get(url).then((response) => {
       setPersons(response.data);
     });
   }, []);
