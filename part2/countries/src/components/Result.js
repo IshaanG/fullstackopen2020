@@ -4,11 +4,18 @@ const TooMany = () => {
   return <div>Too many matches, specify another filter</div>;
 };
 
-const Many = ({ data }) => {
+const Many = ({ data, handleClick }) => {
   return (
     <ul>
       {data.map((country) => {
-        return <li key={country.name}>{country.name}</li>;
+        return (
+          <li key={country.name}>
+            {country.name}{" "}
+            <button id={country.name} onClick={handleClick}>
+              show
+            </button>
+          </li>
+        );
       })}
     </ul>
   );
@@ -34,11 +41,11 @@ const Single = ({ data }) => {
   );
 };
 
-const Result = ({ data }) => {
+const Result = ({ data, handleClick }) => {
   if (data.length > 10) {
     return <TooMany />;
   } else if (data.length > 1) {
-    return <Many data={data} />;
+    return <Many data={data} handleClick={handleClick} />;
   } else if (data.length === 1) {
     return <Single data={data} />;
   } else {

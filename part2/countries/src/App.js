@@ -21,10 +21,14 @@ const App = () => {
     });
   }, []);
 
+  const handleClick = (event) => {
+    setNewFilter(event.target.id);
+  };
+
   return (
     <div>
       <Search text={newFilter} handler={handleFilterChange} />
-      <Result data={countriesToShow} />
+      <Result data={countriesToShow} handleClick={handleClick} />
     </div>
   );
 };
