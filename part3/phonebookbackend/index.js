@@ -40,6 +40,14 @@ app.get("/api/persons/:id", (req, res) => {
   }
 });
 
+app.get("/info", (req, res) => {
+  const date = new Date();
+  const nPersons = persons.length;
+  res.send(
+    `<div>Phonebook has info for ${nPersons} people</div><div>${date}</div>`
+  );
+});
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
