@@ -25,9 +25,12 @@ let persons = [
   },
 ];
 
-function getRandomInt(max) {
+const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
-}
+};
+const alreadyExist = (p) => {
+  return persons.filter((person) => person.name === p).length > 0;
+};
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
@@ -61,9 +64,18 @@ app.delete("/api/persons/:id", (req, res) => {
 
 app.post("/api/persons", (req, res) => {
   const person = req.body;
+  if (!person.name) {
+    return res.status(400).json({ error: "name missing" });
+  }
+  if (!person.number) {
+    return res.status(400).json({ error: "number missing" });
+  }
+  if (alreadyExist(person.name)) {
+    return res.status(409).json({ error: "name must be unique" });
+  }
+
   person.id = getRandomInt(1000000000);
   persons = persons.concat(person);
-  console.log(persons);
   res.json(person);
 });
 
