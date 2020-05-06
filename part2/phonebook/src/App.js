@@ -106,8 +106,8 @@ const App = () => {
           setNewName(""); // clears form name input
           setNewNumber(""); //clears form number input
         })
-        .catch(() => {
-          setErrorMessage(`Could not add a new person.`);
+        .catch((e) => {
+          setErrorMessage(e.response.data.error);
           setTimeout(() => {
             setErrorMessage("");
           }, 5000);
