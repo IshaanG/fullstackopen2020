@@ -1,16 +1,12 @@
-const dummy = (blogs) => {
-  return 1;
-};
+const dummy = () => 1;
 
-const totalLikes = (blogs) => {
-  return blogs.reduce((a, b) => a + b.likes, 0);
-};
+const totalLikes = (blogs) => blogs.reduce((a, b) => a + b.likes, 0);
 
 const favoriteBlog = (blogs) => {
   if (blogs.length === 0) return {};
-  let favoriteBlogObject = {
-    title: "a",
-    author: "b",
+  const favoriteBlogObject = {
+    title: 'a',
+    author: 'b',
     likes: -1,
   };
   blogs.forEach((blog) => {
